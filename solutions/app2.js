@@ -18,9 +18,16 @@ const cookieHandler = {
             });
         return getCookieNames;
     },
-    toSessionStorage() { },
-    flush(name) {
-        document.cookie = `${name} =; expires = Thu, 01 Jan 1970 00:00:00 UTC; path /;`;
+    toSessionStorage() {
+        document.cookie.split(';')
+            .forEach(item => sessionStorage.setItem(item.split('=')[0], item.split('=')[1]))
+    },
+    flush() {
+        const deletCookie = cookieHandler.getAll();
+        for (let i = 0; i < deletCookie.length; i++) {
+            document.cookie = `${deletCookie[i]} =; expires = Thu, 01 Jan 1970 00:00:00 UTC; path /;`;
+
+        }
     },
 }
 
