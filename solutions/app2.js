@@ -1,34 +1,29 @@
-const setCookie = (value = '') => {
-    const now = new Date();
-    now.setTime(now.getTime() + (15 * 60 * 1000));
-    const expires = now.toUTCString();
-    document.cookie = ` token = ${value}; expires =${expires}; path = /`;
-}
-setCookie('viewed', '5');
-setCookie('uid' '354774631237');
+
+setCookie('viewed', 5);
+setCookie('uid', 354774631237);
 setCookie('ssid', 'Bx55OWbHJ0Vt_IGIF');
 
+
 const cookieHandler = {
-    getAll(name) {
+    getAll: () => {
         let cookieObject = {};
-        getCookieNames = document.cookie
+        document.cookie
             .split(' ;')
-            .forEach(item => {
-                getCookieNames[item.split('=')[0]] = item.split('=')[1];
-            });
-        return getCookieNames;
+            .forEach(item =>
+                cookieObject[item.split('=')[0]] = item.split('=')[1]);
+        return cookieObject;
     },
-    toSessionStorage() {
+    toSessionStorage: () => {
         document.cookie.split(';')
             .forEach(item => sessionStorage.setItem(item.split('=')[0], item.split('=')[1]))
     },
-    flush() {
-        const deletCookie = cookieHandler.getAll();
+    flush: () => {
+        const deletCookie = document.cookie.split(';');
         for (let i = 0; i < deletCookie.length; i++) {
-            document.cookie = `${deletCookie[i]} =; expires = Thu, 01 Jan 1970 00:00:00 UTC; path /;`;
+            document.cookie = `${deletCookie[i]} =; expires = Thu, 01 Jan 1970 00:00:00 UTC`;
 
         }
-    },
+    }
 }
 
 export { cookieHandler };
